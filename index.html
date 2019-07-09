@@ -262,6 +262,132 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://gexin1.github.io/river.github.io/2019/07/09/13-更优雅的方式写element table/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="river">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/river.github.io/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="river">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/river.github.io/2019/07/09/13-更优雅的方式写element table/" itemprop="url">13-更优雅的方式写element table</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-09T22:18:14+08:00">
+                2019-07-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>  由于代码还是比较简单的 能力强的同学直接看demo就行了<br><br><br><a href="https://github.com/gexin1/dynamic-render-element-table" target="_blank" rel="noopener">demo传送</a><br>使用到了渲染函数o(╥﹏╥)o<br><br><br>不了解的同学可以去官网看下=&gt;<a href="https://cn.vuejs.org/v2/guide/render-function.html" target="_blank" rel="noopener">传送门</a><br>头好大啊o(╥﹏╥)o<br><br><br>我们仿照iview 表格的写法 通过传入一个render函数来渲染自定义列<br><br><br>我通过函数自定义组件来合并传入的自定义列<br><br><br><br></p>
+<h3 id="自定义加强的column"><a href="#自定义加强的column" class="headerlink" title="自定义加强的column"></a>自定义加强的column</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//ColumnPlus.vue</span></span><br><span class="line">&lt;script&gt;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 动态渲染 el-table-column</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">    name: <span class="string">'ColumnPlus'</span>,</span><br><span class="line">    props: &#123;</span><br><span class="line">        attrs: &#123;</span><br><span class="line">            type: <span class="built_in">Object</span>,</span><br><span class="line">            <span class="keyword">default</span>: <span class="function"><span class="params">()</span> =&gt;</span> (&#123;&#125;),</span><br><span class="line">            required: <span class="literal">true</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    render: <span class="function"><span class="keyword">function</span>(<span class="params">h</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">let</span> attrs = <span class="keyword">this</span>.attrs;</span><br><span class="line">        <span class="keyword">let</span> scopedSlots = &#123;&#125;;</span><br><span class="line">        <span class="comment">// 如果传入render 就表示需要自定义列 我们把渲染函数加入插槽里边</span></span><br><span class="line">        <span class="keyword">if</span> (attrs.render) &#123;</span><br><span class="line">            scopedSlots.default = <span class="function"><span class="params">scope</span> =&gt;</span> attrs.render(h, scope);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> h(<span class="string">'el-table-column'</span>, &#123;</span><br><span class="line">            attrs,</span><br><span class="line">            scopedSlots</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line">&lt;<span class="regexp">/script&gt;</span></span><br></pre></td></tr></table></figure>
+<p>我们赶快来动态构造table吧</p>
+<h3 id="table-动态渲染"><a href="#table-动态渲染" class="headerlink" title="table 动态渲染"></a>table 动态渲染</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">//table.vue</span><br><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">el-table</span> <span class="attr">:data</span>=<span class="string">"data"</span> <span class="attr">v-bind</span>=<span class="string">"attrs"</span> <span class="attr">v-on</span>=<span class="string">"event"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">column-plus</span></span></span><br><span class="line"><span class="tag">            <span class="attr">v-for</span>=<span class="string">"(item, index) in columns"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">:key</span>=<span class="string">"index"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">:attrs</span>=<span class="string">"item"</span></span></span><br><span class="line"><span class="tag">        &gt;</span><span class="tag">&lt;/<span class="name">column-plus</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">el-table</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript"><span class="keyword">import</span> ColumnPlus <span class="keyword">from</span> <span class="string">'./ColumnPlus'</span>;</span></span><br><span class="line"><span class="javascript"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span><br><span class="line"><span class="undefined">    props: &#123;</span></span><br><span class="line"><span class="undefined">        data: &#123;</span></span><br><span class="line"><span class="javascript">            type: <span class="built_in">Array</span>,</span></span><br><span class="line"><span class="javascript">            required: <span class="literal">true</span></span></span><br><span class="line"><span class="undefined">        &#125;,</span></span><br><span class="line"><span class="undefined">        columns: &#123;</span></span><br><span class="line"><span class="javascript">            type: <span class="built_in">Array</span>,</span></span><br><span class="line"><span class="javascript">            required: <span class="literal">true</span></span></span><br><span class="line"><span class="undefined">        &#125;,</span></span><br><span class="line"><span class="undefined">        attrs: &#123;</span></span><br><span class="line"><span class="javascript">            type: <span class="built_in">Object</span>,</span></span><br><span class="line"><span class="javascript">            <span class="keyword">default</span>: <span class="function"><span class="params">()</span> =&gt;</span> (&#123;&#125;)</span></span><br><span class="line"><span class="undefined">        &#125;,</span></span><br><span class="line"><span class="undefined">        event: &#123;</span></span><br><span class="line"><span class="javascript">            type: <span class="built_in">Object</span>,</span></span><br><span class="line"><span class="javascript">            <span class="keyword">default</span>: <span class="function"><span class="params">()</span> =&gt;</span> (&#123;&#125;)</span></span><br><span class="line"><span class="undefined">        &#125;</span></span><br><span class="line"><span class="undefined">    &#125;,</span></span><br><span class="line"><span class="undefined">    computed: &#123;</span></span><br><span class="line"><span class="undefined">        _attrs() &#123;</span></span><br><span class="line"><span class="javascript">            <span class="comment">//默认table 参数</span></span></span><br><span class="line"><span class="javascript">            <span class="keyword">const</span> defaultParams = &#123;&#125;;</span></span><br><span class="line"><span class="javascript">            <span class="keyword">return</span> <span class="built_in">Object</span>.assign(<span class="keyword">this</span>.attrs, defaultParams);</span></span><br><span class="line"><span class="undefined">        &#125;</span></span><br><span class="line"><span class="undefined">    &#125;,</span></span><br><span class="line"><span class="undefined">    components: &#123;</span></span><br><span class="line"><span class="undefined">        ColumnPlus</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined">&#125;;</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>终于完成了-_-||</p>
+<h3 id="使用组件"><a href="#使用组件" class="headerlink" title="使用组件"></a>使用组件</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"app"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dynamic-table</span></span></span><br><span class="line"><span class="tag">      <span class="attr">:columns</span>=<span class="string">"columns2"</span></span></span><br><span class="line"><span class="tag">      <span class="attr">:data</span>=<span class="string">"data"</span></span></span><br><span class="line"><span class="tag">      <span class="attr">:attrs</span>=<span class="string">"tableAttr"</span></span></span><br><span class="line"><span class="tag">      <span class="attr">:event</span>=<span class="string">"tableEvent"</span></span></span><br><span class="line"><span class="tag">    &gt;</span><span class="tag">&lt;/<span class="name">dynamic-table</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript"><span class="keyword">import</span> DynamicTable <span class="keyword">from</span> <span class="string">"./components/DynamicTable"</span>;</span></span><br><span class="line"><span class="javascript"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span><br><span class="line"><span class="javascript">  name: <span class="string">"App"</span>,</span></span><br><span class="line"><span class="undefined">  data() &#123;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">return</span> &#123;</span></span><br><span class="line"><span class="javascript">      <span class="comment">//table</span></span></span><br><span class="line"><span class="undefined">      tableAttr: &#123;</span></span><br><span class="line"><span class="javascript">        height: <span class="string">`400px`</span>,</span></span><br><span class="line"><span class="javascript">        stripe: <span class="literal">false</span>,</span></span><br><span class="line"><span class="javascript">        border: <span class="literal">true</span>,</span></span><br><span class="line"><span class="javascript">        fit: <span class="literal">true</span></span></span><br><span class="line"><span class="undefined">      &#125;,</span></span><br><span class="line"><span class="undefined">      tableEvent: &#123;</span></span><br><span class="line"><span class="javascript">        <span class="string">"selection-change"</span>: <span class="function"><span class="params">val</span> =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">          <span class="built_in">console</span>.log(val);</span></span><br><span class="line"><span class="undefined">        &#125;</span></span><br><span class="line"><span class="undefined">      &#125;,</span></span><br><span class="line"><span class="undefined">      columns2: [</span></span><br><span class="line"><span class="undefined">        &#123;</span></span><br><span class="line"><span class="javascript">          type: <span class="string">"selection"</span>,</span></span><br><span class="line"><span class="javascript">          width: <span class="string">"55"</span></span></span><br><span class="line"><span class="undefined">        &#125;,</span></span><br><span class="line"><span class="undefined">        &#123;</span></span><br><span class="line"><span class="javascript">          label: <span class="string">"Address"</span>,</span></span><br><span class="line"><span class="javascript">          prop: <span class="string">"address"</span>,</span></span><br><span class="line"><span class="undefined">          width: 300</span></span><br><span class="line"><span class="undefined">        &#125;,</span></span><br><span class="line"><span class="undefined">        &#123;</span></span><br><span class="line"><span class="javascript">          label: <span class="string">"Postcode"</span>,</span></span><br><span class="line"><span class="javascript">          prop: <span class="string">"zip"</span>,</span></span><br><span class="line"><span class="undefined">          width: 200,</span></span><br><span class="line"><span class="javascript">          sortable: <span class="literal">true</span>,</span></span><br><span class="line"><span class="javascript">          <span class="string">"sort-method"</span>: <span class="function"><span class="keyword">function</span>(<span class="params">a, b</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">            <span class="keyword">return</span> b.zip - a.zip;</span></span><br><span class="line"><span class="undefined">          &#125;</span></span><br><span class="line"><span class="undefined">        &#125;,</span></span><br><span class="line"><span class="undefined">        &#123;</span></span><br><span class="line"><span class="javascript">          label: <span class="string">"Action"</span>,</span></span><br><span class="line"><span class="javascript">          fixed: <span class="string">"right"</span>,</span></span><br><span class="line"><span class="javascript">          width: <span class="string">"300"</span>,</span></span><br><span class="line"><span class="javascript">          render: <span class="function">(<span class="params">h, params</span>) =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">            <span class="keyword">return</span> h(<span class="string">"div"</span>, [</span></span><br><span class="line"><span class="undefined">              h(</span></span><br><span class="line"><span class="javascript">                <span class="string">"el-button"</span>,</span></span><br><span class="line"><span class="undefined">                &#123;</span></span><br><span class="line"><span class="undefined">                  props: &#123;</span></span><br><span class="line"><span class="javascript">                    type: <span class="string">"primary"</span>,</span></span><br><span class="line"><span class="javascript">                    size: <span class="string">"mini"</span></span></span><br><span class="line"><span class="undefined">                  &#125;,</span></span><br><span class="line"><span class="undefined">                  on: &#123;</span></span><br><span class="line"><span class="undefined">                    click() &#123;</span></span><br><span class="line"><span class="javascript">                      <span class="built_in">console</span>.log(params);</span></span><br><span class="line"><span class="undefined">                    &#125;</span></span><br><span class="line"><span class="undefined">                  &#125;</span></span><br><span class="line"><span class="undefined">                &#125;,</span></span><br><span class="line"><span class="javascript">                <span class="string">"查看"</span></span></span><br><span class="line"><span class="undefined">              )</span></span><br><span class="line"><span class="undefined">            ]);</span></span><br><span class="line"><span class="undefined">          &#125;</span></span><br><span class="line"><span class="undefined">        &#125;</span></span><br><span class="line"><span class="undefined">      ],</span></span><br><span class="line"><span class="undefined">      data: [</span></span><br><span class="line"><span class="undefined">        &#123;</span></span><br><span class="line"><span class="javascript">          name: <span class="string">"John Brown"</span>,</span></span><br><span class="line"><span class="undefined">          age: 18,</span></span><br><span class="line"><span class="javascript">          address: <span class="string">"New York No. 1 Lake Park"</span>,</span></span><br><span class="line"><span class="javascript">          province: <span class="string">"America"</span>,</span></span><br><span class="line"><span class="javascript">          city: <span class="string">"New York"</span>,</span></span><br><span class="line"><span class="undefined">          zip: 100010</span></span><br><span class="line"><span class="undefined">        &#125;</span></span><br><span class="line"><span class="undefined">      ]</span></span><br><span class="line"><span class="undefined">    &#125;;</span></span><br><span class="line"><span class="undefined">  &#125;,</span></span><br><span class="line"><span class="undefined">  components: &#123;</span></span><br><span class="line"><span class="undefined">    DynamicTable</span></span><br><span class="line"><span class="undefined">  &#125;</span></span><br><span class="line"><span class="undefined">&#125;;</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>是不是很简单呢^_^<br><br><br><a href="https://github.com/gexin1/dynamic-render-element-table" target="_blank" rel="noopener">demo传送</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://gexin1.github.io/river.github.io/2019/07/09/11-git reset 还是有文件/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1323,130 +1449,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://gexin1.github.io/river.github.io/2018/11/02/3-call_apply_bind的用法/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="river">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/river.github.io/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="river">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/river.github.io/2018/11/02/3-call_apply_bind的用法/" itemprop="url">3-call_apply_bind的用法</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-02T22:44:10+08:00">
-                2018-11-02
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="call"><a href="#call" class="headerlink" title="call"></a>call</h3><p>&nbsp;<br>原文来自=&gt;<a href="https://www.jianshu.com/p/6b4333e78bf5" target="_blank" rel="noopener">学会JS的this这一篇就够了，根本不用记</a><br>&nbsp;</p>
-<pre><code>1.  把第二个到最后一个参数作为函数执行时要传入的参数 
-2.  把函数执行时的this指向第一个参数  
-3.  在上面这个特殊的上下文中执行函数
-</code></pre><h5 id="example"><a href="#example" class="headerlink" title="example"></a>example</h5><p>&nbsp;<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// tip:非严格模式</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">		<span class="built_in">console</span>.log(<span class="keyword">this</span>);</span><br><span class="line">&#125;</span><br><span class="line">fn1.call(<span class="built_in">window</span>)===fn1() <span class="comment">//true</span></span><br></pre></td></tr></table></figure></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1501,7 +1503,7 @@
               
                 <a href="/river.github.io/archives/">
               
-                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-count">13</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1514,7 +1516,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/river.github.io/tags/index.html">
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

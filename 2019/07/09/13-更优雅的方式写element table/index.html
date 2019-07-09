@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/river.github.io/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/river.github.io/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/river.github.io/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/river.github.io/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/river.github.io/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/river.github.io/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/river.github.io/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="vue element," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="由于代码还是比较简单的 能力强的同学直接看demo就行了demo传送使用到了渲染函数o(╥﹏╥)o不了解的同学可以去官网看下=&amp;gt;传送门头好大啊o(╥﹏╥)o我们仿照iview 表格的写法 通过传入一个render函数来渲染自定义列我通过函数自定义组件来合并传入的自定义列 自定义加强的column12345678910111213141516171819202122232425262728">
+<meta name="keywords" content="vue element">
+<meta property="og:type" content="article">
+<meta property="og:title" content="13-更优雅的方式写element table">
+<meta property="og:url" content="https://gexin1.github.io/2019/07/09/13-更优雅的方式写element table/index.html">
+<meta property="og:site_name" content="river">
+<meta property="og:description" content="由于代码还是比较简单的 能力强的同学直接看demo就行了demo传送使用到了渲染函数o(╥﹏╥)o不了解的同学可以去官网看下=&amp;gt;传送门头好大啊o(╥﹏╥)o我们仿照iview 表格的写法 通过传入一个render函数来渲染自定义列我通过函数自定义组件来合并传入的自定义列 自定义加强的column12345678910111213141516171819202122232425262728">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-07-09T14:18:53.763Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="13-更优雅的方式写element table">
+<meta name="twitter:description" content="由于代码还是比较简单的 能力强的同学直接看demo就行了demo传送使用到了渲染函数o(╥﹏╥)o不了解的同学可以去官网看下=&amp;gt;传送门头好大啊o(╥﹏╥)o我们仿照iview 表格的写法 通过传入一个render函数来渲染自定义列我通过函数自定义组件来合并传入的自定义列 自定义加强的column12345678910111213141516171819202122232425262728">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/river.github.io/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://gexin1.github.io/2019/07/09/13-更优雅的方式写element table/"/>
+
+
+
+
+
+  <title>13-更优雅的方式写element table | river</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?e2e77cea306cc5452a8bf88e3eabcae6";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/river.github.io/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">river</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/river.github.io/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/river.github.io/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/river.github.io/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/river.github.io/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://gexin1.github.io/river.github.io/2019/07/09/13-更优雅的方式写element table/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="river">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/river.github.io/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="river">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">13-更优雅的方式写element table</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-09T22:18:14+08:00">
+                2019-07-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>  由于代码还是比较简单的 能力强的同学直接看demo就行了<br><br><br><a href="https://github.com/gexin1/dynamic-render-element-table" target="_blank" rel="noopener">demo传送</a><br>使用到了渲染函数o(╥﹏╥)o<br><br><br>不了解的同学可以去官网看下=&gt;<a href="https://cn.vuejs.org/v2/guide/render-function.html" target="_blank" rel="noopener">传送门</a><br>头好大啊o(╥﹏╥)o<br><br><br>我们仿照iview 表格的写法 通过传入一个render函数来渲染自定义列<br><br><br>我通过函数自定义组件来合并传入的自定义列<br><br><br><br></p>
+<h3 id="自定义加强的column"><a href="#自定义加强的column" class="headerlink" title="自定义加强的column"></a>自定义加强的column</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//ColumnPlus.vue</span></span><br><span class="line">&lt;script&gt;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 动态渲染 el-table-column</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">    name: <span class="string">'ColumnPlus'</span>,</span><br><span class="line">    props: &#123;</span><br><span class="line">        attrs: &#123;</span><br><span class="line">            type: <span class="built_in">Object</span>,</span><br><span class="line">            <span class="keyword">default</span>: <span class="function"><span class="params">()</span> =&gt;</span> (&#123;&#125;),</span><br><span class="line">            required: <span class="literal">true</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    render: <span class="function"><span class="keyword">function</span>(<span class="params">h</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">let</span> attrs = <span class="keyword">this</span>.attrs;</span><br><span class="line">        <span class="keyword">let</span> scopedSlots = &#123;&#125;;</span><br><span class="line">        <span class="comment">// 如果传入render 就表示需要自定义列 我们把渲染函数加入插槽里边</span></span><br><span class="line">        <span class="keyword">if</span> (attrs.render) &#123;</span><br><span class="line">            scopedSlots.default = <span class="function"><span class="params">scope</span> =&gt;</span> attrs.render(h, scope);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> h(<span class="string">'el-table-column'</span>, &#123;</span><br><span class="line">            attrs,</span><br><span class="line">            scopedSlots</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line">&lt;<span class="regexp">/script&gt;</span></span><br></pre></td></tr></table></figure>
+<p>我们赶快来动态构造table吧</p>
+<h3 id="table-动态渲染"><a href="#table-动态渲染" class="headerlink" title="table 动态渲染"></a>table 动态渲染</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">//table.vue</span><br><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">el-table</span> <span class="attr">:data</span>=<span class="string">"data"</span> <span class="attr">v-bind</span>=<span class="string">"attrs"</span> <span class="attr">v-on</span>=<span class="string">"event"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">column-plus</span></span></span><br><span class="line"><span class="tag">            <span class="attr">v-for</span>=<span class="string">"(item, index) in columns"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">:key</span>=<span class="string">"index"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">:attrs</span>=<span class="string">"item"</span></span></span><br><span class="line"><span class="tag">        &gt;</span><span class="tag">&lt;/<span class="name">column-plus</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">el-table</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript"><span class="keyword">import</span> ColumnPlus <span class="keyword">from</span> <span class="string">'./ColumnPlus'</span>;</span></span><br><span class="line"><span class="javascript"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span><br><span class="line"><span class="undefined">    props: &#123;</span></span><br><span class="line"><span class="undefined">        data: &#123;</span></span><br><span class="line"><span class="javascript">            type: <span class="built_in">Array</span>,</span></span><br><span class="line"><span class="javascript">            required: <span class="literal">true</span></span></span><br><span class="line"><span class="undefined">        &#125;,</span></span><br><span class="line"><span class="undefined">        columns: &#123;</span></span><br><span class="line"><span class="javascript">            type: <span class="built_in">Array</span>,</span></span><br><span class="line"><span class="javascript">            required: <span class="literal">true</span></span></span><br><span class="line"><span class="undefined">        &#125;,</span></span><br><span class="line"><span class="undefined">        attrs: &#123;</span></span><br><span class="line"><span class="javascript">            type: <span class="built_in">Object</span>,</span></span><br><span class="line"><span class="javascript">            <span class="keyword">default</span>: <span class="function"><span class="params">()</span> =&gt;</span> (&#123;&#125;)</span></span><br><span class="line"><span class="undefined">        &#125;,</span></span><br><span class="line"><span class="undefined">        event: &#123;</span></span><br><span class="line"><span class="javascript">            type: <span class="built_in">Object</span>,</span></span><br><span class="line"><span class="javascript">            <span class="keyword">default</span>: <span class="function"><span class="params">()</span> =&gt;</span> (&#123;&#125;)</span></span><br><span class="line"><span class="undefined">        &#125;</span></span><br><span class="line"><span class="undefined">    &#125;,</span></span><br><span class="line"><span class="undefined">    computed: &#123;</span></span><br><span class="line"><span class="undefined">        _attrs() &#123;</span></span><br><span class="line"><span class="javascript">            <span class="comment">//默认table 参数</span></span></span><br><span class="line"><span class="javascript">            <span class="keyword">const</span> defaultParams = &#123;&#125;;</span></span><br><span class="line"><span class="javascript">            <span class="keyword">return</span> <span class="built_in">Object</span>.assign(<span class="keyword">this</span>.attrs, defaultParams);</span></span><br><span class="line"><span class="undefined">        &#125;</span></span><br><span class="line"><span class="undefined">    &#125;,</span></span><br><span class="line"><span class="undefined">    components: &#123;</span></span><br><span class="line"><span class="undefined">        ColumnPlus</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined">&#125;;</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>终于完成了-_-||</p>
+<h3 id="使用组件"><a href="#使用组件" class="headerlink" title="使用组件"></a>使用组件</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"app"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dynamic-table</span></span></span><br><span class="line"><span class="tag">      <span class="attr">:columns</span>=<span class="string">"columns2"</span></span></span><br><span class="line"><span class="tag">      <span class="attr">:data</span>=<span class="string">"data"</span></span></span><br><span class="line"><span class="tag">      <span class="attr">:attrs</span>=<span class="string">"tableAttr"</span></span></span><br><span class="line"><span class="tag">      <span class="attr">:event</span>=<span class="string">"tableEvent"</span></span></span><br><span class="line"><span class="tag">    &gt;</span><span class="tag">&lt;/<span class="name">dynamic-table</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript"><span class="keyword">import</span> DynamicTable <span class="keyword">from</span> <span class="string">"./components/DynamicTable"</span>;</span></span><br><span class="line"><span class="javascript"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span><br><span class="line"><span class="javascript">  name: <span class="string">"App"</span>,</span></span><br><span class="line"><span class="undefined">  data() &#123;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">return</span> &#123;</span></span><br><span class="line"><span class="javascript">      <span class="comment">//table</span></span></span><br><span class="line"><span class="undefined">      tableAttr: &#123;</span></span><br><span class="line"><span class="javascript">        height: <span class="string">`400px`</span>,</span></span><br><span class="line"><span class="javascript">        stripe: <span class="literal">false</span>,</span></span><br><span class="line"><span class="javascript">        border: <span class="literal">true</span>,</span></span><br><span class="line"><span class="javascript">        fit: <span class="literal">true</span></span></span><br><span class="line"><span class="undefined">      &#125;,</span></span><br><span class="line"><span class="undefined">      tableEvent: &#123;</span></span><br><span class="line"><span class="javascript">        <span class="string">"selection-change"</span>: <span class="function"><span class="params">val</span> =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">          <span class="built_in">console</span>.log(val);</span></span><br><span class="line"><span class="undefined">        &#125;</span></span><br><span class="line"><span class="undefined">      &#125;,</span></span><br><span class="line"><span class="undefined">      columns2: [</span></span><br><span class="line"><span class="undefined">        &#123;</span></span><br><span class="line"><span class="javascript">          type: <span class="string">"selection"</span>,</span></span><br><span class="line"><span class="javascript">          width: <span class="string">"55"</span></span></span><br><span class="line"><span class="undefined">        &#125;,</span></span><br><span class="line"><span class="undefined">        &#123;</span></span><br><span class="line"><span class="javascript">          label: <span class="string">"Address"</span>,</span></span><br><span class="line"><span class="javascript">          prop: <span class="string">"address"</span>,</span></span><br><span class="line"><span class="undefined">          width: 300</span></span><br><span class="line"><span class="undefined">        &#125;,</span></span><br><span class="line"><span class="undefined">        &#123;</span></span><br><span class="line"><span class="javascript">          label: <span class="string">"Postcode"</span>,</span></span><br><span class="line"><span class="javascript">          prop: <span class="string">"zip"</span>,</span></span><br><span class="line"><span class="undefined">          width: 200,</span></span><br><span class="line"><span class="javascript">          sortable: <span class="literal">true</span>,</span></span><br><span class="line"><span class="javascript">          <span class="string">"sort-method"</span>: <span class="function"><span class="keyword">function</span>(<span class="params">a, b</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">            <span class="keyword">return</span> b.zip - a.zip;</span></span><br><span class="line"><span class="undefined">          &#125;</span></span><br><span class="line"><span class="undefined">        &#125;,</span></span><br><span class="line"><span class="undefined">        &#123;</span></span><br><span class="line"><span class="javascript">          label: <span class="string">"Action"</span>,</span></span><br><span class="line"><span class="javascript">          fixed: <span class="string">"right"</span>,</span></span><br><span class="line"><span class="javascript">          width: <span class="string">"300"</span>,</span></span><br><span class="line"><span class="javascript">          render: <span class="function">(<span class="params">h, params</span>) =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">            <span class="keyword">return</span> h(<span class="string">"div"</span>, [</span></span><br><span class="line"><span class="undefined">              h(</span></span><br><span class="line"><span class="javascript">                <span class="string">"el-button"</span>,</span></span><br><span class="line"><span class="undefined">                &#123;</span></span><br><span class="line"><span class="undefined">                  props: &#123;</span></span><br><span class="line"><span class="javascript">                    type: <span class="string">"primary"</span>,</span></span><br><span class="line"><span class="javascript">                    size: <span class="string">"mini"</span></span></span><br><span class="line"><span class="undefined">                  &#125;,</span></span><br><span class="line"><span class="undefined">                  on: &#123;</span></span><br><span class="line"><span class="undefined">                    click() &#123;</span></span><br><span class="line"><span class="javascript">                      <span class="built_in">console</span>.log(params);</span></span><br><span class="line"><span class="undefined">                    &#125;</span></span><br><span class="line"><span class="undefined">                  &#125;</span></span><br><span class="line"><span class="undefined">                &#125;,</span></span><br><span class="line"><span class="javascript">                <span class="string">"查看"</span></span></span><br><span class="line"><span class="undefined">              )</span></span><br><span class="line"><span class="undefined">            ]);</span></span><br><span class="line"><span class="undefined">          &#125;</span></span><br><span class="line"><span class="undefined">        &#125;</span></span><br><span class="line"><span class="undefined">      ],</span></span><br><span class="line"><span class="undefined">      data: [</span></span><br><span class="line"><span class="undefined">        &#123;</span></span><br><span class="line"><span class="javascript">          name: <span class="string">"John Brown"</span>,</span></span><br><span class="line"><span class="undefined">          age: 18,</span></span><br><span class="line"><span class="javascript">          address: <span class="string">"New York No. 1 Lake Park"</span>,</span></span><br><span class="line"><span class="javascript">          province: <span class="string">"America"</span>,</span></span><br><span class="line"><span class="javascript">          city: <span class="string">"New York"</span>,</span></span><br><span class="line"><span class="undefined">          zip: 100010</span></span><br><span class="line"><span class="undefined">        &#125;</span></span><br><span class="line"><span class="undefined">      ]</span></span><br><span class="line"><span class="undefined">    &#125;;</span></span><br><span class="line"><span class="undefined">  &#125;,</span></span><br><span class="line"><span class="undefined">  components: &#123;</span></span><br><span class="line"><span class="undefined">    DynamicTable</span></span><br><span class="line"><span class="undefined">  &#125;</span></span><br><span class="line"><span class="undefined">&#125;;</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>是不是很简单呢^_^<br><br><br><a href="https://github.com/gexin1/dynamic-render-element-table" target="_blank" rel="noopener">demo传送</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/river.github.io/tags/vue-element/" rel="tag"># vue element</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/river.github.io/2019/07/09/11-git reset 还是有文件/" rel="next" title="11-git reset 还是有文件">
+                <i class="fa fa-chevron-left"></i> 11-git reset 还是有文件
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/river.github.io/images/avatar.jpg"
+                alt="river" />
+            
+              <p class="site-author-name" itemprop="name">river</p>
+              <p class="site-description motion-element" itemprop="description">自闭</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/river.github.io/archives/">
+              
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/river.github.io/tags/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="382599512@qq.com" target="_blank" title="邮箱">
+                      
+                        <i class="fa fa-fw fa-globe"></i>邮箱</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#自定义加强的column"><span class="nav-number">1.</span> <span class="nav-text">自定义加强的column</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#table-动态渲染"><span class="nav-number">2.</span> <span class="nav-text">table 动态渲染</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用组件"><span class="nav-number">3.</span> <span class="nav-text">使用组件</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">river</span>
+
+  
+</div>
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/river.github.io/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/river.github.io/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/river.github.io/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/river.github.io/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/river.github.io/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/river.github.io/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/river.github.io/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/river.github.io/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/river.github.io/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/river.github.io/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/river.github.io/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/river.github.io/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/river.github.io/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
